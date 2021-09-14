@@ -12,7 +12,7 @@ This script is made to work with ```feh```, ```nitrogen```,
 ```XFCE```, ```GNOME```, ```KDE``` or  ```Sway```, having one of those is a requirement.```
 ## Install
 ```
-git clone https://github.com/thevinter/styli.sh
+git clone https://github.com/brogers/styli.sh
 cd styli.sh
 ./styli.sh
 ```
