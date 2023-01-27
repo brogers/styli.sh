@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-link="https://source.unsplash.com/random/"
+link="https://source.unsplash.com"
+
 
 if [ -z ${XDG_CONFIG_HOME+x} ]; then
     XDG_CONFIG_HOME="${HOME}/.config"
@@ -177,13 +178,24 @@ wget -T $timeout -U "$useragent" --no-check-certificate -q -P down -O ${wallpape
 unsplash() {
     local search="${search// /_}"
     if [ ! -z $height ] || [ ! -z $width ]; then
-        link="${link}${width}x${height}";
+        link="${link}/${width}x${height}";
     else
-        link="${link}1920x1080";
+        link="${link}/3840x2160";
     fi
     
     if [ ! -z $search ]; then
         link="${link}/?${search}"
+    else
+      if [ ! -f "${confdir}/categories" ]; then
+          echo "Please install the categories file in ${confdir}"
+          exit 2
+      fi
+      readarray categories < "${confdir}/categories"
+      a=${#categories[@]}
+      b=$(($RANDOM % $a))
+      category=${categories[$b]}
+      category="$(echo -e "${category}" | tr -d '[:space:]')"
+      link="${link}/?${category}"
     fi
     
     wget -q -O ${wallpaper} $link
